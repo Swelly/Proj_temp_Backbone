@@ -42,6 +42,19 @@ var ProjectListView = Backbone.View.extend({
   }
 });
 
+var AppView = Backbone.View.extend({
+  el: $('#main'),
+  initialize: function () {
+    // Populate the application with the AppView template
+
+    // Cache commonly used selectors
+  },
+  render: function () {
+    // Create views for each Project in the Projects collection
+
+  }
+});
+
 // COLLECTION DONE
 var Projects = Backbone.Collection.extend({
   model: Project
