@@ -30,22 +30,24 @@ var Projects = Backbone.Collection.extend({
 
 // Router
 var AppRouter = Backbone.Router.extend({
-  routes:{
+  routes: {
       // url: action
-      '': 'index',
-      'project/:slug':'getProject' //Save and come back
+    '': 'index',
+    'project/:slug': 'getProject' //Save and come back
   },
-  initialize: function(options) {
-     this.projects = new Projects([
-        new Project({name: "First Project", slug:"First-Project"}),
-        new Project({name: "Second Project", slug:"Second-Project"}),
-        new Project({name: "Three Project", slug:"Third-Project"})
-      ]);
-  }
+  initialize: function (options) {
+    this.projects = new Projects([
+                new Project({name: "First Project", slug: "First-Project"}),
+                new Project({name: "Second Project", slug: "Second-Project"}),
+                new Project({name: "Three Project", slug: "Third-Project"})
+    ]);
+  },
+  index: function () {},
+  getProject: function () {}
 });
 
 
-$(function() {
+$(function () {
   // Handlebars.registerPartial('project', $('#project-template').html());
 
   // // Loads the project template
@@ -60,6 +62,5 @@ $(function() {
   // // Appends the templatedHTML to the #main div
   // $('#main').append(templateHTML);
 
-
   var app = new AppRouter();
-})
+});
