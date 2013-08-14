@@ -1,7 +1,9 @@
 // Creates an object
 var Project = Backbone.Model.extend({
+  idAttribute: 'slug',
   defaults: {
     name: "Default Project",
+    slug: "Default Project",
     github_url: "http://github.com/Swelly/portfolio",
     live_url: "http://Instagram.com/WesC17",
     thumbnail_url: "http://github.com/Swelly/portfolio/preview.jpg",
@@ -28,31 +30,35 @@ var Projects = Backbone.Collection.extend({
 
 // Router
 var AppRouter = Backbone.Router.extend({
-  routes:{},
+  routes:{
+      // url: action
+      '': 'index',
+      'project/:slug':'getProject' //Save and come back
+  },
   initialize: function(options) {
      this.projects = new Projects([
-        new Project(),
-        new Project(),
-        new Project()
+        new Project({name: "First Project", slug:"First-Project"}),
+        new Project({name: "Second Project", slug:"Second-Project"}),
+        new Project({name: "Three Project", slug:"Third-Project"})
       ]);
   }
 });
 
 
 $(function() {
-  Handlebars.registerPartial('project', $('#project-template').html());
+  // Handlebars.registerPartial('project', $('#project-template').html());
 
-  // Loads the project template
-  var source = $('#projects-template').html();
+  // // Loads the project template
+  // var source = $('#projects-template').html();
 
-  // Renders the html into an html template
-  var template = Handlebars.compile(source);
+  // // Renders the html into an html template
+  // var template = Handlebars.compile(source);
 
-  // Inserts the data into the template and renders the templatedHTML
-  var templateHTML = template(projects);
+  // // Inserts the data into the template and renders the templatedHTML
+  // var templateHTML = template(projects);
 
-  // Appends the templatedHTML to the #main div
-  $('#main').append(templateHTML);
+  // // Appends the templatedHTML to the #main div
+  // $('#main').append(templateHTML);
 
 
   var app = new AppRouter();
