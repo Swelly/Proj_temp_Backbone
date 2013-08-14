@@ -23,6 +23,25 @@ var project = {
 // This needs to be replaced with a Collection
 var projects = {projects: [project, project, project] };
 
+
+var ProjectListView = Backbone.View.extend({
+  tag_name: 'li',
+  initialize: function () {
+    // Don't need to do anything here yet
+  },
+  render: function () {
+    // Handlebars stuff goes here
+    var source = $('#project-template').html(),
+        template = Handlebars.compile(source),
+        data = this.model.toJSON(),
+        templatedHTML = template(data);
+    this.$el.html(templatedHTML);
+
+    // Allows for function chaining
+    return this;
+  }
+});
+
 // COLLECTION DONE
 var Projects = Backbone.Collection.extend({
   model: Project
@@ -31,7 +50,7 @@ var Projects = Backbone.Collection.extend({
 // Router
 var AppRouter = Backbone.Router.extend({
   routes: {
-      // url: action
+    // url: action
     '': 'index',
     'project/:slug': 'getProject' //Save and come back
   },
@@ -42,7 +61,12 @@ var AppRouter = Backbone.Router.extend({
                 new Project({name: "Three Project", slug: "Third-Project"})
     ]);
   },
-  index: function () {},
+  index: function () {
+    var appView = new ProjectListView({
+      collection: this.projects
+    });
+    projectList.render();
+  },
   getProject: function () {}
 });
 
