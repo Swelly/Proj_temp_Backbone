@@ -5,8 +5,14 @@
 </head>
 
 <body>
-
 <script id="project-template" type="x-handlebars-template">
+  <div class="project">
+  <h2>{{name}}</h2>
+  <img src="{{thumbnail_url}}"/>
+  </div>
+</script>
+
+<script id="detailed-project-template" type="x-handlebars-template">
   <div class="project">
     <h2> {{name}} </h2>
     <img src="{{thumbnail_url}}" />

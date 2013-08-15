@@ -21,6 +21,10 @@ var Projects = Backbone.Collection.extend({
 var ProjectListView = Backbone.View.extend({
   // STEP 12. Setup and render the individual project
   tagName: 'li',
+  events: {
+    // STEP 14: Register a click event
+    'click':'view'
+  },
   initialize: function() {
     // Don't need to do anything here yet
   },
@@ -34,15 +38,20 @@ var ProjectListView = Backbone.View.extend({
 
     // Allows for function chaining
     return this;
+  },
+  // STEP 15: The click event triggers this method
+  view: function() {
+    // STEP 16: Navigate to the Project page, which goes back through the router
+    app.navigate('project/' + this.model.get('slug'), true);
   }
 });
 
 var AppView = Backbone.View.extend({
-  // STEP 8: This sets up the main page
+  // STEP 8: This sets up the main page by setting the view to the #main
   el: $('#main'),
   initialize: function() {
     // STEP 9: Populate the application with my appView template
-    var appViewTemplate = $('#appView-template').html()
+    var appViewTemplate = $('#appView-template').html();
     this.$el.html(appViewTemplate);
     // Cache commonly used selectors
     this.list = $('#project-list');
@@ -63,7 +72,21 @@ var AppView = Backbone.View.extend({
   }
 });
 
+var ProjectView = Backbone.View.extend({
+  el: $('#main'),
+  initialize: function () {
 
+  },
+  render: function () {
+    // STEP 21: Handlebars stuff
+    var source = $('#detailed-project-template').html(),
+      template = Handlebars.compile(source),
+      templatedHTML = template(this.model.toJSON());
+    // STEP 22: Replace all the HTML on the #main div
+    this.$el.html(templatedHTML);
+    return this;
+  }
+});
 
 // This is a bit of a Router/Controller combination
 var AppRouter = Backbone.Router.extend({
@@ -71,7 +94,7 @@ var AppRouter = Backbone.Router.extend({
   routes:{
     // url:method
     '':'index',
-    'project/:slug':'getProject' // Save this and come back
+    'project/:slug':'getProject' // STEP 17: Router catches this URL change. Runs 'getProject()'
   },
   initialize: function() {
     // STEP 4: intialize routes with data.
@@ -89,12 +112,19 @@ var AppRouter = Backbone.Router.extend({
     // STEP 9: Calls render on appView
     appView.render();
   },
-  getProject: function() {}
+  getProject: function(slug) {
+    // STEP 18: We are passed the 'slug' variable from the URL
+    var project = this.projects.get(slug); // STEP 19: Searching for the matching project
+    // STEP 20 : Create a new instance of ProjectView, passing in the project
+    var projectView = new ProjectView({model: project});
+    // STEP 21: Render the projectView
+    projectView.render();
+  }
 });
 
 $(function() {
   // STEP 1: Create instance of Router
-  var app = new AppRouter();
+  app = new AppRouter();
 
   // STEP 2: Start History
   Backbone.history.start();
